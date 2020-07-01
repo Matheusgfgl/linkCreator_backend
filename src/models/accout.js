@@ -12,5 +12,10 @@ module.exports = (sequilize, DataTypes) => {
     }
   })
 
+  Account.prototype.toJSON = function (){
+    const values = {...this.get()};
+    delete values.password;
+    return values;
+  }
   return Account;
 }
