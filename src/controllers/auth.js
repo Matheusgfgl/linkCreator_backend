@@ -12,6 +12,7 @@ router.post('/sign-in', accountSignIn, async (req, res) => {
   const { email, password } = req.body;
 
   const account = await Account.findOne({where: { email}});
+  if(!account) res.json('Email invalido, por favor digite o email correto')
 
   const match = account ? bcrypt.compareSync(password, account.password) : null;
   if(!match) return res.json('Senha invalida, por favor digite a senha correta')
@@ -37,7 +38,7 @@ router.post('/sign-up', accountSignUp, async (req, res) => {
   const token = generateJwt({id: newAccount.id})
   const refreshToken = generateRefreshJwt({id: newAccount.id})
 
-   return res.json(newAccount);
+   return res.json({newAccount, token});
 });
 
 module.exports = router;
