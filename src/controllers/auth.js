@@ -24,7 +24,7 @@ router.post('/sign-in', accountSignIn, async (req, res) => {
 
 router.post('/sign-up', accountSignUp, async (req, res) => {
 
-  const { email, password } = req.body;
+  const { email, password, jwtVersion } = req.body;
 
   const account = await Account.findOne({where: { email}});
 
@@ -33,12 +33,12 @@ router.post('/sign-up', accountSignUp, async (req, res) => {
   }
   
   const hash = bcrypt.hashSync(password, saltRounds)
-  const newAccount = await Account.create({ email, password: hash })
+  const newAccount = await Account.create({ email, password: hash, jwtVersion })
   
   const token = generateJwt({id: newAccount.id})
   const refreshToken = generateRefreshJwt({id: newAccount.id})
 
    return res.json({newAccount, token});
 });
-
+  
 module.exports = router;

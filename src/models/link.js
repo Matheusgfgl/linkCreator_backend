@@ -1,6 +1,6 @@
-module.exports = (sequilize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
 
-  const Link = sequilize.define('Link', {
+  const Link = sequelize.define('Link', {
 
     label : {
         type: DataTypes.STRING,
